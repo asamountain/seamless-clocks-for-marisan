@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milwaukee and Paju Clocks</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+        }
+        .clock-container {
+            display: flex;
+            gap: 20px;
+        }
+        .clock {
+            width: 180px;
+            height: 180px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+        .location {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #37352f;
+        }
+        .time {
+            font-size: 24px;
+            font-weight: bold;
+            color: #37352f;
+        }
+        .day-night {
+            font-size: 24px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div id="clock1" class="clock">
+            <div class="location">Milwaukee, USA</div>
+            <div class="time"></div>
+            <div class="day-night"></div>
+        </div>
+        <div id="clock2" class="clock">
+            <div class="location">Paju, South Korea</div>
+            <div class="time"></div>
+            <div class="day-night"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClocks() {
+            const locations = [
+                { name: 'Milwaukee, USA', timezone: 'America/Chicago' },
+                { name: 'Paju, South Korea', timezone: 'Asia/Seoul' }
+            ];
+
+            locations.forEach((location, index) => {
+                const now = new Date().toLocaleString('en-US', { timeZone: location.timezone });
+                const date = new Date(now);
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const seconds = date.getSeconds().toString().padStart(2, '0');
+                const isDaytime = hours >= 6 && hours < 18;
+
+                const clockElement = document.getElementById(`clock${index + 1}`);
+                clockElement.querySelector('.time').textContent = `${hours}:${minutes}:${seconds}`;
+                clockElement.querySelector('.day-night').textContent = isDaytime ? '☀️' : '🌙';
+            });
+        }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>
